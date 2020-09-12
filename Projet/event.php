@@ -7,6 +7,8 @@
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
   <meta content="" name="keywords">
   <meta content="" name="description">
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+
 
   <!-- Favicons -->
   <link href="img/logo/icon.png" rel="icon">
@@ -98,28 +100,45 @@
                       <button name="search" class="site-btn">Chercher</button>
                     </div>
                     <p>"Good fortune is what happens when opportunity meets with planning."Thomas Edison </p>
-                    <table>
-                      <tr>
-                          <th>id</th>
-                          <th>titre </th>
-                          <th>theme</th>
-                          <th>tendance</th>
-                          <th>institution</th>
-                      </tr>
-                      <?php while($row = mysqli_fetch_array($search_result)):$search_result = filterTable($query);?>
-                      <tr>
-                            <td><?php echo $row['id'];?></td>
-                            <td><?php echo $row['titre'];?></td>
-                            <td><?php echo $row['theme'];?></td>
-                            <td><?php echo $row['tendance'];?></td>
-                            <td><?php echo $row['institution'];?></td>
-                      </tr>
-                      <?php endwhile;?>
-                  </table>
                   </form>
                 </div>
               </div>
             </section>
+            <?php
+            $con = new PDO("mysql:host=localhost;dbname=test",'root','');
+            if (isset($_POST["search"])) {
+                $str = $_POST["valueToSearch"];
+                $sth = $con->prepare("SELECT * FROM `event` WHERE titre = '$str'");
+
+                $sth->setFetchMode(PDO:: FETCH_OBJ);
+                $sth -> execute();
+
+                if($row = $sth->fetch())
+                {
+                    ?>
+                    <br><br><br>
+                    <table>
+                        <tr>
+                            <th>titre</th>
+                            <th>institution</th>
+                            <th>theme</th>
+                            <th>Categorie</th>
+                        </tr>
+                        <tr>
+                            <td><?php echo $row->titre; ?></td>
+                            <td><?php echo $row->institution; ?></td>
+                            <td><?php echo $row->theme; ?></td>
+                            <td><?php echo $row->categorie;?></td>
+                        </tr>
+
+                    </table>
+            <?php 
+                }
+                else{
+                    echo "Evènement introuvable";
+                }
+            }
+        ?>
             <h2>Liste des événements</h2>
             <p>Evènements à ne pas rater</p>
           </div>
@@ -151,14 +170,14 @@
                   <h4>Forum Mines Rabat Entreprises</h4>
                   <div class="main">   <!-- systeme d'evaluation des evenements -->
                     <i class="fa fa-star checked" id=”one”></i>
-                    <i class="fa fa-star unchecked" id="two"></i>
-                    <i class="fa fa-star unchecked" id="three"></i>
+                    <i class="fa fa-star checked" id="two"></i>
+                    <i class="fa fa-star checked" id="three"></i>
                     <i class="fa fa-star unchecked" id="four"></i>
                     <i class="fa fa-star unchecked" id="five"></i>
                   </div> 
                   <div class="event_image flotte">   <!-- La classe flotte permet d'alligner la foto et le theme a droite du texte descriptif -->
                     <label for="titre">Thème:<a href="#" class="theme badge-pedag">Pédagogique </a></label><br/>
-                      <img src="img/forum.jpg" alt="Forum"><br/><br/>
+                    <a href="img/events/forum.jpg" class="venobox" data-gall="gallery-carousel"><img src="img/events/forum.jpg" alt=""></a>
                   </div>    
                   <label> Catégorie: Forum</label> 
                   <label> <a href="enim.gov.ma">Lieu: L'Ecole Nationale Supérieure des Mines de Rabat</a></label>  
@@ -181,30 +200,17 @@
                 </div>
                   <div class="col-md-10">
                     <h4>Moroccan Robotic Challenge MRC 6.0</h4>
-                    <div id='classrating'><ul class='star-rating'>
-	<li class='current-rating' style="width:0px;"></li>
-	<li><a href='javascript:take_rating("11887", "1");' title='1 out of 5 stars' class='one-star'></a></li>
-	<li><a href='javascript:take_rating("11887", "2");' title='2 out of 5 stars' class='two-stars'></a></li>
-	<li><a href='javascript:take_rating("11887", "3");' title='3 out of 5 stars' class='three-stars'></a></li>
-	<li><a href='javascript:take_rating("11887", "4");' title='4 out of 5 stars' class='four-stars'></a></li>
-	<li><a href='javascript:take_rating("11887", "5");' title='5 out of 5 stars' class='five-stars'></a></li>
-
-</ul>
-</div></div>
                     <div class="stars">
-                      <i  class="fa fa-star"></i>
-                      <i class="fa fa-star"></i>
-                      <i class="fa fa-star"></i>
-                      <i class="fa fa-star"></i>
+                      <i  class="fa fa-star checked"></i>
+                      <i class="fa fa-star checked"></i>
+                      <i class="fa fa-star checked"></i>
+                      <i class="fa fa-star checked"></i>
                     </div> 
                     <div class="event_image flotte">
                       <label for="titre" class="labelclasse">Thème:<a href="#" class="theme badge-techn">Technologie</a></label>
                       <br/>
-                      <img id="map" src="img/MRC6.png" alt="https://unsplash.com/@theunsteady5">
-                          <button type="button" onclick="zoomin()"> Zoom In</button>
-                          <button type="button" onclick="zoomout()"> Zoom Out</button>
-                      
-                  </div>         
+                      <a href="img/events/MRC6.png" class="venobox" data-gall="gallery-carousel"><img src="img/events/MRC6.png" alt=""></a>
+                    </div> 
                     <label> Catégorie: Compétition</label> 
                     <label> <a href="enim.gov.ma">Lieu: L'Ecole Nationale Supérieure des Mines de Rabat</a></label>  
                     <p>Le club Mines Makers organise, sous la tutelle de l'association des élèves ingénieurs de l'école nationale supérieure des mines de Rabat (ENSMR), La 6ème édition de son évenement phare Moroccan Robotics Challenge.
@@ -232,15 +238,15 @@
                   <div class="col-md-10">
                     <h4>Semaine Culturelle</h4>
                     <div class="stars">
-                      <i class="fa fa-star"></i>
-                      <i class="fa fa-star"></i>
-                      <i class="fa fa-star"></i>
-                      <i class="fa fa-star"></i>
+                      <i class="fa fa-star checked"></i>
+                      <i class="fa fa-starchecked"></i>
+                      <i class="fa fa-star checked"></i>
+                      <i class="fa fa-star unchecked"></i>
                     </div> 
                     <div class="event_image flotte">
                       <label for="titre" class="labelclasse">Thème:<a href="#" class="theme badge-Cult">Culturel</a></label>
                       <br/>
-                      <img src="img/met.jpg" alt="https://unsplash.com/@theunsteady5">
+                      <a href="img/events/met.jpg" class="image fit thumb"><img src="img/events/met.jpg" /></a>  
                   </div>         
                     <label> Catégorie: Compétition</label> 
                     <label> <a href="enim.gov.ma">Lieu: L'Ecole Nationale Supérieure des Mines de Rabat</a></label>  
@@ -262,15 +268,15 @@
                   <div class="col-md-10">
                     <h4>Semaine Culturelle</h4>
                     <div class="stars">
-                      <i class="fa fa-star"></i>
-                      <i class="fa fa-star"></i>
-                      <i class="fa fa-star"></i>
-                      <i class="fa fa-star"></i>
+                      <i class="fa fa-star checked"></i>
+                      <i class="fa fa-star checked"></i>
+                      <i class="fa fa-star unchecked"></i>
+                      <i class="fa fa-star unchecked"></i>
                     </div> 
                     <div class="event_image flotte">
                       <label for="titre" class="labelclasse">Thème:<a href="#" class="theme badge-Cult">Culturel</a></label>
                       <br/>
-                      <img src="img/sem.jpg" alt="https://unsplash.com/@theunsteady5">
+                      <a href="img/events/sem.jpg" class="venobox" data-gall="gallery-carousel"><img src="img/events/sem.jpg" alt=""></a>
                   </div>         
                     <label> Catégorie: journée</label> 
                     <label> <a href="enim.gov.ma">Lieu: L'Ecole Nationale Supérieure des Mines de Rabat</a></label>  
@@ -295,7 +301,7 @@
                   <div class="col-md-10">
                     <h4>Cosmonight</h4>
                     <div class="stars">
-                      <i class="fa fa-star"></i>
+                      <i class="fa fa-star checked"></i>
                       <i class="fa fa-star"></i>
                       <i class="fa fa-star"></i>
                       <i class="fa fa-star"></i>
@@ -303,7 +309,7 @@
                     <div class="event_image flotte">
                       <label for="titre" class="labelclasse">Thème:<a href="#" class="theme badge-Astro">Astronomie</a></label>
                       <br/>
-                      <img src="img/cosmonight.jpg" alt="https://unsplash.com/@theunsteady5">
+                      <a href="img/events/cosmonight.jpg" class="venobox" data-gall="gallery-carousel"><img src="img/events/cosmonight.jpg" alt=""></a>
                       <label>Animateur : <a href="spekers#" >Abdelhafid Bani</a><div class="speaker">
                         <img src="img/speakers/Abd.jpg" alt="Abdelhafid Bani">
                       </div></label>
@@ -348,7 +354,7 @@
                       <div class="event_image flotte">
                         <label for="titre" class="labelclasse">Thème:<a href="#" class="theme badge-Cult">Culturel</a></label>
                         <br/>
-                        <img src="img/sem2.jpg" alt="https://unsplash.com/@theunsteady5">
+                        <a href="img/events/sem2.jpg" class="venobox" data-gall="gallery-carousel"><img src="img/events/sem2.jpg" alt=""></a>
                     </div>         
                       <label> Catégorie: journée</label> 
                       <label> <a href="enim.gov.ma">Lieu: L'Ecole Nationale Supérieure des Mines de Rabat</a></label>  
@@ -388,11 +394,11 @@
           <div class="col-lg-3 col-md-6 footer-links">
             <h4>Useful Links</h4>
             <ul>
-              <li><i class="fa fa-angle-right"></i> <a href="#">Home</a></li>
-              <li><i class="fa fa-angle-right"></i> <a href="#">About us</a></li>
+              <li><i class="fa fa-angle-right"></i> <a href="acceuil.html">Acceuil</a></li>
+              <li><i class="fa fa-angle-right"></i> <a href="#">Apropos</a></li>
               <li><i class="fa fa-angle-right"></i> <a href="#">Services</a></li>
-              <li><i class="fa fa-angle-right"></i> <a href="#">Terms of service</a></li>
-              <li><i class="fa fa-angle-right"></i> <a href="#">Privacy policy</a></li>
+              <li><i class="fa fa-angle-right"></i> <a href="#">Evènements</a></li>
+              <li><i class="fa fa-angle-right"></i> <a href="#">Catégorie</a></li>
             </ul>
           </div>
 
