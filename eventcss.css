@@ -1,0 +1,22 @@
+body{
+	background-color: black;
+
+}
+h1{
+	color: #f82249;
+	margin-left: 950px;
+}
+img{
+	width: 450PX;
+	float: left;
+}
+p{
+	color: #ffffff;
+	margin-left: 800px;
+	line-height: 20px;
+	word-spacing: 6px;
+    text-align: right;
+    padding: 100px;
+    font-weight: bold;
+
+}
